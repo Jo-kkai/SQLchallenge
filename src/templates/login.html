@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Extremely Secure Site</title>
+  </head>
+  <body>
+    <main>
+      <h1>Login Page</h1>
+      <p>please enter your credentials</p>
+      <form id="login-form" method="post" action="/login">
+        <label for="username">username : </label>
+        <input type="text" name="username" placeholder="john" />
+        <br />
+        <label for="password">password : </label>
+        <input type="text" name="password" placeholder="..." />
+        <br />
+        <button type="submit">Continue</button>
+        <p id="error" style="display: none">invalid credentials!</p>
+      </form>
+      <a href="/">&larr; home</a>
+    </main>
+    <script>
+      const form = document.getElementById("login-form");
+      const error = document.getElementById("error");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        error.style.display = "none";
+        const res = await fetch("/login", {
+          method: "POST",
+          body: new URLSearchParams(new FormData(form)),
+        });
+        if (res.redirected) {
+          window.location.href = res.url;
+          return;
+        }
+        if (res.ok) {
+          window.location.href = "/admin";
+          return;
+        }
+        errorEl.style.display = "block";
+      });
+    </script>
+  </body>
+</html>
