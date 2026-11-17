@@ -5,6 +5,4 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 INSERT INTO users (username, password) VALUES
-('admin','admin123'),
-('testuser','testpass'),
-('john','securepassword');
+('admin', 'admin123');

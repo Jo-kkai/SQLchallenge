@@ -18,7 +18,7 @@
         <button type="submit">Continue</button>
         <p id="error" style="display: none">invalid credentials!</p>
       </form>
-      <a href="index.html">&larr; home</a>
+      <a href="/">&larr; home</a>
     </main>
     <script>
       const form = document.getElementById("login-form");
@@ -31,10 +31,18 @@
         const res = await fetch("back.php", {
           method: "POST",
           body: new URLSearchParams(new FormData(form)),
-          redirect: "manual",
         });
 
-        if (res.type === "opaqueredirect" || res.status === 302) {
+        let data;
+        try {
+          data = await res.json();
+        } catch (_) {
+          console.error("Non-JSON response from back.php", res.status);
+          error.style.display = "block";
+          return;
+        }
+
+        if (data.success === true) {
           window.location.href = "win.html";
           return;
         }
