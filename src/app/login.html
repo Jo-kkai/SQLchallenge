@@ -33,21 +33,18 @@
           body: new URLSearchParams(new FormData(form)),
         });
 
-        let data;
+        const text = await res.text();
         try {
-          data = await res.json();
+          const data = JSON.parse(text);
+          if (data.success === false) {
+            error.style.display = "block";
+            return;
+          }
         } catch (_) {
-          console.error("Non-JSON response from back.php", res.status);
-          error.style.display = "block";
-          return;
+          document.open();
+          document.write(text);
+          document.close();
         }
-
-        if (data.success === true) {
-          window.location.href = "win.html";
-          return;
-        }
-
-        error.style.display = "block";
       });
     </script>
   </body>

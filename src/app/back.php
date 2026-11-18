@@ -1,5 +1,8 @@
-
 <?php
+session_start();
+header('Content-Type: application/json');
+
+
 $conn = mysqli_connect("db", "testuser", "testpass", "testdb");
 
 if (!$conn) {
@@ -21,7 +24,8 @@ $query = "SELECT * FROM users WHERE username = '$user' AND password = '$pass' ";
 $result = mysqli_query($conn, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
-    echo json_encode(["success" => true]);
-} else {
-    echo json_encode(["success" => false]);
+    readfile(__DIR__ . '/win.html');
+    exit;
 }
+
+echo json_encode(["success" => false]);
